@@ -1,15 +1,12 @@
 \documentclass[11pt]{article}
-\title{02233 report}
-\author{s082057\\s137315\\s123136\\s123248}
-\date{June 2016}
 
 %packages
+\usepackage[utf8]{inputenc}
+\usepackage[american]{babel}
 \usepackage[rmargin=3cm, tmargin=2cm]{geometry}
-\usepackage{cmath}
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage{color,soul}
-\usepackage[utf8]{inputenc}
 \usepackage{fancyvrb}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{graphicx}
@@ -29,82 +26,81 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage[toc,page]{appendix}
-\usepackage[utf8]{inputenc}
 \usepackage{float}
 %\usepackage{fullpage}
 \usepackage{lastpage}
-\usepackage{color}
-\usepackage[yyyymmdd]{datetime}
-\renewcommand{\dateseparator}{--}
+\usepackage{setspace}
+\usepackage[ddmmyyyy]{datetime}
 
+% constants
+\newcommand{\COURSE}{02239: Applied Cryptography}
+\newcommand{\TITLE}{Secure Logfiles on Insecure Servers}
+\newcommand{\DATE}{Fall 2016}
 
-\definecolor{pblue}{rgb}{0.13,0.13,1}
-\definecolor{pgreen}{rgb}{0,0.5,0}
-\definecolor{pred}{rgb}{0.9,0,0}
-\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+% formating
+\onehalfspacing{}
+%% toc
+\setcounter{secnumdepth}{3} % only chapter and sections will be numbered
+\setcounter{tocdepth}{3}    % entries down to \subsubsections in the TOC
+\addto\captionsamerican{\renewcommand{\contentsname}{Table of Contents}}
+% heading and document layout stuff
+%\titleformat{\chapter}{\normalfont\LARGE\bfseries\color{black}}{\thechapter.}{1em}{}
 
-\usepackage{listings}
-\lstset{language=Java,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  basicstyle=\ttfamily,
-  numberstyle=\footnotesize,
-  numbers=left,
-  breaklines=true,
-  postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}
-}
+\input{macros}
 
-
-
-%commands and environments
-\fvset{frame=single,framesep=1mm,fontfamily=courier,fontsize=\scriptsize,numbers=left,framerule=.3mm,numbersep=1mm,commandchars=\\\{\}}
-\newcommand{\code}[1]{\emph{#1}}
-
-%tabular header heights
-\newcommand\Tstrut{\rule{0pt}{3ex}}
-\newcommand\Bstrut{\rule[-1.5ex]{0pt}{0pt}}
-\newcommand{\TBstrut}{\Tstrut\Bstrut}
-
-\newenvironment{italicquotes}
-{\begin{quote}\itshape}
-{\end{quote}}
-
-\newcommand{\HRule}{\textcolor{sangria}{\rule{\linewidth}{0.7mm}}}
-\newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\left(#1\right)}}
-\addtolength{\textheight}{0.6in}
-
-%heading and document layout stuff
-\titleformat{\chapter}{\normalfont\LARGE\bfseries\color{black}}{\thechapter.}{1em}{}
-
-\date{\today}
-\pagestyle{headings}
+% headers
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{01435 - Practical Cryptanalysis}
-\rhead{Worksheet 1}
-\cfoot{Page \thepage}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{15pt}
+\setlength{\headsep}{25pt}
+\lhead{\TITLE}
+\chead{}
+\rhead{\leftmark}
+\cfoot{Page \thepage{} of~\pageref{LastPage}}
 
 
 \begin{document}
+\input{sections/front}
+\clearpage
 
-\input{tex/front}
 
 \tableofcontents
+\clearpage
 
 \section{Abstract}
-\input{tex/abstract}
+\input{sections/abstract}
+\clearpage
 
 \section{Introduction}
-\input{tex/introduction}
+\label{sec:intro}
+\input{sections/intro}
+\clearpage
 
 \section{Threat Analysis}
-\input{tex/threat_analysis}
+\label{sec:threat}
+\input{sections/threat}
+\clearpage
+
+\section{Blockchain}
+\label{sec:block}
+\input{sections/block}
+\clearpage
+
+\section{Applied}
+\label{sec:applied}
+\input{sections/applied}
+\clearpage
+
+\section{Evaluation}
+\label{sec:eval}
+\input{sections/eval}
+\clearpage
+
+\section{Conclusion}
+\label{sec:conc}
+\input{sections/conc}
+\clearpage
 
 \bibliography{bibliography}{}
 \bibliographystyle{ieeetr}
