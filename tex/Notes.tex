@@ -1,0 +1,5 @@
+%Marcus
+Amending or deleting data
+Non-blockchain databases commonly use username and password based authentication and user entitlements to determine who can amend data, and log files to record amend events.
+Blockchains, running over several nodes, reject changes to data once written, except by consensus of a majority or all of the nodes or by abusing the “longest chain rule” whose purpose is to resolve near-simultaneous block creation.
+This means you can reduce risk of rogue administrators changing historical data by having the blockchain run over nodes in different data centres, each with different teams of database administrators. To change historical data, (assuming the private blockchain is set up where the rules don’t allow a single node to add multiple blocks in a row) you would need a number of colluding teams to work together.
