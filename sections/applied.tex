@@ -8,8 +8,17 @@
 \subsection{Illustrate and explain applied scenario}
 
 \subsubsection{Large storage consumption?}
+% https://bitcoin.stackexchange.com/questions/10479/what-is-the-merkle-root
 No, because only block header and Merkle root needs to be downloaded,
-and Merkle root is enough to confirm that block was accepted by network.
+and Merkle root is enough to confirm that block was accepted by
+network.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.6]{figures/blockchain-header.png}
+  \caption{\label{fig:blockchain-header} Header of a single block}
+\end{figure}
+
 
 \subsection{Which threats are handled?}
 IMPORTANT, part of project def.
