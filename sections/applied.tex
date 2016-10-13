@@ -3,6 +3,54 @@
 %%% TeX-master: "../main"
 %%% End:
 
+In the same manner as Bitcoin distributes and organizes its financial
+information through a blockchain, we can achieve the same, only with
+log messages. The data in the Body of a block is of no significance to
+functionality of the blockchain, only the hash there of.
+
+
+
+\subsection{Log entry}
+The specification of the structure of a log entry is not important as
+all the servers agree. For the purpose of comprehensiveness we include
+a sample format which contains some meta-data and a log message.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c|c|l}
+    Field                & Data type       & Format                                    \\ \hline
+    \texttt{version}     & \texttt{string} & Version of log entry format               \\
+    \texttt{timestamp}   & \texttt{string} & Standard timestamp (ISO 8601)             \\
+    \texttt{host-id}     & \texttt{string} & ID of node in blockchain                  \\
+    \texttt{application} & \texttt{string} & Name of application or device             \\
+    \texttt{pid}         & \texttt{int}    & Process id of the application             \\
+    \texttt{message}     & \texttt{string} & Logged message in UTF-8 encoding
+  \end{tabular}
+  \caption{\label{tab:log-entry} Structure of an log entry}
+\end{table}
+We include the version of the log entry format, so if we update it, we
+can preserve backwards compatibility.
+
+
+
+\subsection{Confidentiality}
+Although the blockchain is private, hence cannot be read by hosts
+outside the network, if a server is compromised, an adversary could
+read the log entries of all nodes on the network. This is, of course,
+very bad. Therefore, vi could encrypt apply public-key encryption to
+all log entries, before hashing and generating the merkle
+root. Consequently, all noted can ensure the validity of all data and
+blocks, but only the node with private key could read the actual log
+entries. This key could then be given to the central server so it can
+do its job by monitoring the logs.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.6]{figures/merkle-root-crypt.png}
+  \caption{\label{fig:merkle-root-crypt} Merkle root with public key enctryption}
+\end{figure}
+
+
+
 \subsection{Tie together threats and blockchain section}
 
 \subsection{Illustrate and explain applied scenario}
