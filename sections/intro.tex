@@ -4,5 +4,27 @@
 %%% End:
 
 \subsection{Problem scenario}
+
+This scenario is central to the topic of data integrity. All data can be manipulated by an adversary with data-access, but through usage of certain security techniques, this can be discovered, and possibly reversed. Knowing whether to trust data or not is extremely important, which is why this scenario is important in a security context.
+Our scenario can be visualized as follows. A central logging server receives system logging entries from other servers:
+\\
+
+\begin{center}
+    \includegraphics[scale=0.6]{figures/Intro_Scenario_Diagram.png}
+\end{center}
+
+A collection of servers on DTU will emit logging entries to a central logging-server for security auditing. It is assumed that the data logged by the servers have intrinsic value, which is interesting for potential attackers, hence the need for secure logging. An attacker could gain valuable knowledge from inspecting the logs, which may lead to larger compromises. 
+\\The periodic security auditing of the central server logs should indicate breaches, so the integrity of the central logs should be maintained.
+We assume that a security breach is total, which means that all data stored on a server, and key material is compromised.
+\\When a server is compromised, it is imperative that log-data cannot be modified by the attacker, since this will obscure the compromise.
+The sequence for each log entry should also be protected, since this will compromise the integrity of the log-data, if an attacker is able to modify the sequence of events.
+\\If the central logging server is breached, it should not be possible for the attacker to manipulate logging data, except for erasing the entire log.
+
 \subsection{Overall goal: detect intrusion}
+
+The intention behind our solution is to provide a system that protects our valuable asset, the log-data. It should not be possible for an adversary to manipulate existing log-data, in transit or even delete parts of it. The sequence of events should also be maintained. This means that data must be encrypted in transit from log-node to the central server, and should contain some sort of integrity check, such as a hashing mechanism and a signature. This protects us from passive attacks, such as man-in-the-middle attacks, where and adversary might access or even modify data transmitted between nodes.
+An adversary should not easily have read access to raw, unencrypted log-data, which might contain important data related to the system. When a log-entry is transmitted, it should contain some form of authentication, so the central server is able to identify the communicating node, so no rogue nodes are able to participate in the logging system.
+\\Data should not be stored locally on any of the logging nodes, since this might compromise the secrecy of the data. The data should only be stored in a syslog-like database on the central server, as per the project definition. This means that an attacker could gain complete data access by breaching the central server. We discussed if this could be prevented by encrypting the data with the central-servers public key, but since all key-material is compromised on a breach, this would be a moot point. We might consider encrypting the data with a key not accessible to the central server.
+\\The main goal of the project is to design a system which is robust to compromise of a small subset of servers. Our system should be able to handle breaches of several servers, as long as the number of compromised servers are not in the majority numbers of total servers.
+
 \subsection{Qualities: light weight, survive compromise}

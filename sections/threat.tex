@@ -3,6 +3,78 @@
 %%% TeX-master: "../main"
 %%% End:
 
+% Written by Rasmus
+\begin{comment}
+Because of their forensic value, system logs represent an obvious attack tar-
+get. An attacker who gains access to a system naturally wishes to remove traces
+of its presence in order to hide attack details or to frame innocent users. In fact,
+the first target of an experienced attacker is often the logging system [Bel-
+lare and Yee 1997; Bellare and Yee 2003]. To make the audit log secure, we
+must prevent the attacker from modifying log data. Secure versions of audit
+logs should be designed to defend against such tampering. Providing integrity
+checks, the primary security requirement for any secure logging system, is in-
+formally stated in the Orange Book [U.S. Department of Defense 1985] as:
+Audit data must be protected from modification and unauthorized
+destruction to permit detection and after-the-fact investigation of
+security violations.
+In addition to the traditional meaning of data integrity which stipulates no
+insertion of fake data and no modification or deletion of existing data, integrity
+of a log file also requires no reordering of log entries. We call this property log
+stream integrity.
+In many real-world applications, a log file is generated and stored on a un-
+trusted logging machine that is not physically secure enough to guarantee im-
+possibility of compromise [Schneier and Kelsey 1998]. Compromise of a logging
+machine can happen as long as the Trusted Computing Base (TCB)—the system
+component responsible for logging—is not totally bug-free, which is unfortu-
+nately always the case. In systems using remote logging (which send audit data
+to a remote trusted server), if the server is not available, the log is buffered and
+stored temporarily at the local machine. Once an attacker obtains the secret
+key of the compromised logging machine, it can modify post-compromise data
+at will. In this case, one important issue is forward integrity: how to ensure
+that pre-compromise data cannot be manipulated? That is, the attacker who
+obtains the current secret key, must be unable to modify audit data generated
+before compromise.
+No security measure can protect log entries created after an attacker gains
+control of a logging machine, unless the logging machine’s keys are periodi-
+cally updated with the help of a remote trusted server or a local trusted hard-
+ware component (e.g., using key-insulated and intrusion-resilient authentica-
+tion schemes [Bellare and Palacio 2002; Dodis et al. 2002, 2003]). We focus
+on the security of log entries pre-dating the compromise of a logging machine.
+Consequently, we require forward-secure stream integrity, that is, resistance
+against post-compromise insertion, alteration, deletion and reordering of pre-
+compromise log entries.
+Traditional log integrity techniques involve using specialized write-only hard
+disks or remote logging whereby copies of log entries are sent to several geo-
+graphically distributed machines. With the former, disk substitution can result
+in a complete integrity compromise of the entire log. In the latter, the remote
+server may go offline (or become unreachable) and the logging machine then
+ACM Transactions on Storage, Vol. 5, No. 1, Article 2, Publication date: March 2009.A New Approach to Secure Logging
+has to locally buffer new log entries, which, in turn, become subject to attacks.
+Furthermore, if the remote server is compromised, log file integrity cannot be
+guaranteed.
+\end{comment}
+When designing a secure system it is important to know what are the threats to the system. In this section we will analyse the threats to our system by first considering what are the assets in the system and how valuable they are. Then we will look into what vulnerabilities our system would be exposed to. With the understanding of the assets and vulnerabilities in our system we are able to look at the threats to our system and how likely they are. We will end the threat analysis by considering attackers who would have a motive to attack our system.
+\subsection{Assets}
+
+\subsection{Vulnerabilities}
+\begin{table}[h!]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{l|l|l|l}
+\multicolumn{1}{c|}{} & \multicolumn{1}{c|}{Confidentiality} & \multicolumn{1}{c|}{Integrity} & \multicolumn{1}{c}{Availability} \\ \hline
+Hardware              &                                      & tampered                       & stolen, destroyed                \\ \hline
+Software              &                                      & backdoor                       & deleted, license expire          \\ \hline
+Data                  & disclosure, inference                & tampered                       & deleted, ransom ware            
+\end{tabular}
+\end{table}
+\subsection{Threats}
+\subsection{Attacker}
+
+\subsection{Our scope?}
+% you should explicitly state what threats your system has been designed to handle.
+
+\begin{comment}
 Basic Steps
 \begin{enumerate}
     \item Identify assets
@@ -18,18 +90,16 @@ Logdata
 
 \subsection{Determine vulnerabilities}
 \begin{table}[h!]
-  \centering
-  \caption{My caption}
-  \label{my-label}
-  \begin{tabular}{|l|lll|}
-    \hline
-    \multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{Confidentiality} & \multicolumn{1}{c|}{Integrity} & \multicolumn{1}{c|}{Availability} \\ \hline
-    Hardware               &                                      & tampered                       & stolen, destroyed                 \\ \cline{1-1}
-    Software               &                                      & backdoor                       & deleted, license expire           \\ \cline{1-1}
-    Data                   & disclosure, inference                & tampered                       & deleted, ransom ware              \\ \hline
-  \end{tabular}
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{l|l|l|l}
+\multicolumn{1}{c|}{} & \multicolumn{1}{c|}{Confidentiality} & \multicolumn{1}{c|}{Integrity} & \multicolumn{1}{c}{Availability} \\ \hline
+Hardware              &                                      & tampered                       & stolen, destroyed                \\ \hline
+Software              &                                      & backdoor                       & deleted, license expire          \\ \hline
+Data                  & disclosure, inference                & tampered                       & deleted, ransom ware            
+\end{tabular}
 \end{table}
-
 \subsection{Estimate likelihood of exploitation}
 Software backdoor
 
@@ -38,3 +108,4 @@ Data disclosure
 \subsection{Calculate consequences (typically as expected annual loss)}
 \subsection{Survey applicable controls and their costs}
 \subsection{Project annual savings of control}
+\end{comment}
