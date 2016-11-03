@@ -5,7 +5,7 @@
 
 % https://bitsonblocks.net/2015/09/09/a-gentle-introduction-to-blockchain-technology/
 
-\subsection{Blockchain technology}
+% \subsection{Blockchain technology}
 
 A blockchain is in principle a quite simple database technology for
 distributed systems. It uses a handful of existing technologies, such
@@ -21,22 +21,99 @@ The blockchain is distributed over a set of peers, whom all communicate
 directly, i.e. a decentralized system or peer-to-peer (P2P) network.
 
 
-\subsubsection{Public vs private blockchains}
+% \subsubsection{Public vs private blockchains}
+We differentiate between two types of blockchains; private and
+public. In a public network anyone can join and start recording,
+validating and distributing transactions through the public
+ledger. A private network introduces a permission system, where each
+node would need permission to read or write to the ledger. This can be
+useful where the information stored in the ledger is not for public
+viewing, but rather for a university, corporation, or any arbitrary
+group of computers.
+
 
 \subsection{Bitcoin}
-public blah
+Now, keep in mind that blockchains is just a database with
+authenticated transactions, distributed over a P2P network. In
+principle, it can be used by share and store your mothers baking
+recipes. Though, there is something unique about blockchains,
+differentiating it from other distributed database systems. This is
+that all nodes on the network does need to trust each other, in fact,
+none do. In a public blockchain network, anyone can join start
+validating other nodes' transactions. This should make you ask, how is
+there not someone up to no good, ruining for others? The reason for
+this is \textit{incentive}, which I will come back to in the following
+real-life example.
+
+In 2008 a blockchain called Bitcoin was created by an anonymous
+developer, or group of developers, under the name of Satoshi
+Nakamoto~\footnote{\url{https://en.wikipedia.org/wiki/Satoshi_Nakamoto}}.
+Bitcoin became to be known as a cryptographic currency where anybody
+could join, contributing computation power to validating transactions
+containing ``bitcoins'', a virtual currency exchangeable for services
+and goods, or even other ``physical'' currencies. Nodes are in turn,
+for contributing time and energy to validating and recording
+transactions, rewarded with bitcoins! In other words, by ensuring that
+everybody is playing nice with their virtual money, you are also
+rewarded money. This activity was nicknamed mining, and became quite
+profitable for those with lots of computation power, as the more
+transactions they validated, the more bitcoins the mined. This is in
+many ways the real genius behind bitcoin, and in fact why the
+blockchain technology was originally created, that virtually anonymous
+nodes on an public network can be trusted, as all have an incentive to
+be contribute.
+
+This incentive is not something all uses of blockchain technology
+provides, but why it has worked so well with cryptocurrencies. Later
+in this chapter, we will have a look at how an active adversary could
+exploit this system.
+
+
+\subsection{Cryptography}
+In this section I will briefly go over a more detailed structure a
+blockchain and each block, including which cryptographic primitives
+which are commonly used.
 
 \subsubsection{Structure of block}
-Merkle root etc
+Each block in a blockchain consists of two parts; a \textit{header},
+containing metadata, and a \textit{body}, containing the actual data.
+The only required information, or fields, in the header is a
+timestamp (required for validation~\footnote{TODO}), a hash of the data in
+its body (connecting body with header) and most importantly, a hash of
+the previous block's header.
 
-\begin{figure}[ht]
+Below, in figure~\ref{fig:blockchain}, is an illustration of three
+consecutive blocks in an arbitrary blockchain (the timestamp field is
+omitted for simplicity's sake).
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.5]{figures/blockchain.png}
   \caption{\label{fig:blockchain} Three blocks of a generic blockchain}
 \end{figure}
 
-Broken much
+As seen in figure~\ref{fig:merkle-root}, the second field in the
+header is called the ``Merkle root''. This is the hash of the body,
+which is computed in the structure of a binary tree, also called a
+Merkle tree. Given four elements in the body, each is first hashed,
+where after pairs of hashes is hashed together until there is only
+one, which is the \textit{Merkle
+  root}~\footnote{\url{https://en.wikipedia.org/wiki/Merkle_tree}}.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.6]{figures/merkle-root.png}
+  \caption{\label{fig:merkle-root} Merkle root of log entries}
+\end{figure}
 
+\subsection{Forward secure}
+By design all blockchains are forward secure, which means an adversary
+can not change something in the ledger, without it being noticed by
+other nodes. This is because of the chain design, where all blocks are
+based on a hash of the previous. Altering a block would change its
+hash and the following blocks hash would not match the new hash of the
+altered block, in result breaking the chain. Such a scenario is
+illustrated below, in figure~\ref{fig:blockchain-broken}, where block
+$n+1$'s body has been altered, changing its Merkle root, again
+changing its header's hash.
 \begin{figure}[ht]
   \centering
   \includegraphics[scale=0.5]{figures/blockchain-broken.png}
@@ -44,14 +121,27 @@ Broken much
     tampered and the hash no longer matches}
 \end{figure}
 
-Merkle root
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[scale=0.6]{figures/merkle-root.png}
-  \caption{\label{fig:merkle-root} Merkle root of log entries}
-\end{figure}
+This can also be explained mathematically, where $H_i$ denotes block
+$i$'s header, $M_i$ is the Merkle root and $\widetilde{M}_i$
+is an altered root.
+\begin{equation}
+Hash(Hash(H_n) + M_n) \quad\neq\quad Hash(Hash(H_n) + \widetilde{M_n})
+\end{equation}
 
 \subsection{Overview of primitives used}
+The actual algorithms used for hashing and signatures is up to each
+implementation. Bitcoin, for instance, uses SHA-256 and RIPEMD-160 for
+hashing, and Elliptical Curve DSA (ECDSA) for signatures, which is a
+variant of the Digital Signature Algorithm (DSA). This can be
+confirmed by checking Bitcoin's cryptographic operation codes
+(opcodes)~\footnote{\url{https://en.bitcoin.it/wiki/Script\#Crypto}}.
+
+This report will not go in depth on the pros and cons of choosing
+different algorithms, but rather advocate the use of cryptographic
+best practices and standards. A standard could, for instance, be
+Federal Information Processing Standards (FIPS) which, as Bitcoin,
+uses SHA-2 for hashing (FIPS PUB 180-4) and DSA/ECDSA for digital
+signatures (FIPS PUB 186-3).
+
 
 \subsection{Authentication, integrity, reliability, availability, etc}
