@@ -55,25 +55,60 @@ guaranteed.
 \end{comment}
 When designing a secure system it is important to know what are the threats to the system. In this section we will analyse the threats to our system by first considering what are the assets in the system and how valuable they are. Then we will look into what vulnerabilities our system would be exposed to. With the understanding of the assets and vulnerabilities in our system we are able to look at the threats to our system and how likely they are. We will end the threat analysis by considering attackers who would have a motive to attack our system.
 \subsection{Assets}
+As mentioned in Section \todo{referer tidligere afsnit} in this case we have a system with several main servers on DTU logging their events to a central logging server. This is done with the intent that by examining the central log file, it will be possible to find signs of a compromised server.\\
+Since we do not know exactly what servers from DTU that is included in the system we assume in this analasys that the system includes all DTU servers, such as the HPC\footnote{DTU High Performance Computer. http://www.hpc.dtu.dk/} and the servers hosting CampusNet\footnote{DTU CampusNet. https://www.campusnet.dtu.dk/}.
 
-\subsection{Vulnerabilities}
+In this system we have several assets that makes up the system, which can be grouped into the categories: Intellectual Properties, Documentation, Hardware, Software and Data. Below we will outline how the assets of our system falls into these categories.
+
+\paragraph{Intellectual Property}
+Due to our system being a system belonging to an university, DTU, the servers in this system will most likely contain state of the art research and research results from the researchers. Since the internal system CampusNet is hosted on DTU servers the assignments handed-in from students to their teachers is an asset of the system. The servers might also contain patents since DTU is known to be the university in Denmark generating the most patents and inventions. Since DTU is also commercialicing these inventions they will also have business secrets that might be found on some of the servers\footnote{http://ait-psc03cd05.win.dtu.dk/english/Collaboration/Industrial\_Collaboration/Inventions-and-Patents}.
+
+\paragraph{Documentation}
+One could think that the university would have manuals for specific machines laying on the servers as well as internal documentation for procedures. Many of the courses from DTU also hosts course websites on the servers as well as researchers websites.
+
+\paragraph{Hardware}
+Since the servers in the system themselves are of value as computers they are also considered an asset of this system.
+
+\paragraph{Software}
+DTU uses a range of different software, both licenced operating systems, expensive scientific software and also develops software themselves. Much of this software could be installed and distributed through servers at DTU.
+
+\paragraph{Data}
+The servers in the system will contain a lot of data. This data could for example be the grades for the students assignments as well as their grading for the courses. As the case we are focusing on, the servers will also be containing log data from when events happen on the different servers.
+
+From the identified assets the hardware assets and the software assets could be replaced by new stuff, which would cost money. However the intellectual properties, documentation and data are however would be much harder to replace, since they are unique and not an of the shelf asset.
+
+\subsection{Vulnerabilities and threats}
+We have considered the valuable assets in our system. We will now look at the vulnerabilities of the identified assets. In order to look at the vulnerabilities of the assets we use the C-I-A triad \footnote{AND73 in Phfleeger and Phfleeger} to categorize the vulnerabilities of the assets in terms of confidentiality, availability and integrity. The confidentiality of a system is the system’s ability to protect the sensitive data from unauthorized access. The integrity of a system describes whether the data in the system is trustworthy, and that it has not been modified with in an unauthorized manner. The availability of a system is its ability to ensure that an asset can be used by those who are allowed to use it.
+
+In order to see what the vulnerabilities for the assets are in terms of the C-I-A triad we see an overview in table \ref{vul-matrix}. If we look at the hardware assets of the system, we would have vulnerabilities in terms of the integrity where a threat could be that an attacker took control of the hardware through a backdoor. Of course the hardware is also vulnerable for being stolen or destroyed physically. In terms of the software in our system this would like the hardware be vulnerable to a backdoor in the code, which could be exploited by an attacker. The software would also be vulnerable on the available if the license where expired or if an attacker or simply a trusted part deleted the software by incident.
+
+If we then look to the documentation assets these are not as vulnerable on the confidentiality since the documentation might be publicly available anyway, such as course information. However an attacker could tamper with the documentation which would be a serious threat for this asset since the integrity of the documentation is important. In terms of availability an attacker could delete the documentation or launching a denial of service attack.
+
+Considering the intellectual properties, these assets are both vulnerable in terms of their confidentiality, integrity and availability. If we think of research results, it is very important that these are confidential, since a researcher would might want to publish his academic results before other academics. In terms of integrety it is important that the results are not tampered with so that the researcher would not draw wrong conclusions. Also for other intellectual properties such as business plans and patents, the confidentiality, integrity and availability is very important.
+
+With the data assets it is very important to have high integrity since e.g. we want to be able to trust what the log says or the students grade that is stored on the server. We would also in the case of grades like to have confidentiality in the asset that it is not being available to the public without accept from the students. Of course the data needs to be available otherwise the data would not be useful.
+
 \begin{table}[h!]
 \centering
-\caption{My caption}
-\label{my-label}
+\caption{Vulnerability matrix}
+\label{vul-matrix}
 \begin{tabular}{l|l|l|l}
-\multicolumn{1}{c|}{} & \multicolumn{1}{c|}{Confidentiality} & \multicolumn{1}{c|}{Integrity} & \multicolumn{1}{c}{Availability} \\ \hline
-Hardware              &                                      & tampered                       & stolen, destroyed                \\ \hline
-Software              &                                      & backdoor                       & deleted, license expire          \\ \hline
-Data                  & disclosure, inference                & tampered                       & deleted, ransom ware            
+\multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\textbf{Confidentiality}} & \multicolumn{1}{c|}{\textbf{Integrity}} & \multicolumn{1}{c}{\textbf{Availability}} \\ \hline
+Intellectual Property & disclosure & tampered & stolen, destroyed \\ \hline
+Documentation & & tampered & destroyed, unavailable \\ \hline
+Hardware & & backdoor & stolen, destroyed \\ \hline
+Software & & backdoor & deleted, license expire \\ \hline
+Data & disclosure, inference & tampered & deleted, ransom ware            
 \end{tabular}
 \end{table}
-\subsection{Threats}
 \subsection{Attacker}
+Some of the more valuable assets of our system would be the intellectual properties, since this system belongs to a university, where intellectual properties are basis for the organization. Another important asset is the data, which in the case of grading could be determining the students future career and in the terms of logs it is valuable for system administrators to monitor what is going on in the system. Thus we could think of the most likely attacks would be against the intellectual properties and the data since they have the most value.\\
+The attackers of our system could be students who would like to change their grade and thus attacking the integrity of the data. These attackers would go in the category of script kiddies. Another attacker would be governments who would not like research to be published, because it could destroy a political result and thus they would try to tamper with some research or attack the availability of the research. Other attackers would be companies who would like to gain inside knowledge of business secrets or pending patents and they will thus be a threat to the confidentiality or availability.
 
-\subsection{Our scope?}
-% you should explicitly state what threats your system has been designed to handle.
+Common for these attackers is that whatever they do a counter measure from DTU's side would be to detect when any of the assets has been attacked. One way of detecting these attack is by using logging the events of the server to a central server. This makes the log data a common target for all the attackers and the log data would be vulnerable. The attackers would like to attack the integrity of the log by tampering which the content of the log.
 
+\subsection{Scope of our project}
+In this project we are focusing mainly on the log data asset. Since this is asset is a common target for all the attacker models it is a very important asset to protect. Since it is a premise for the system that the servers are insecure we are considering the integrity of the log data on the central server. It is important that the log data is forward secure such that it is not possible to tamper with already logged events. We will thus be focusing on designing a cryptographic countermeasure against attack on the integrity of the main server log and not on the integrity of the logging events from the servers that might have been hijacked by an attacker.
 \begin{comment}
 Basic Steps
 \begin{enumerate}
