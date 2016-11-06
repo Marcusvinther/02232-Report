@@ -30,25 +30,36 @@ a sample format which contains some meta-data and a log message.
 We include the version of the log entry format, so if we update it, we
 can preserve backwards compatibility.
 
+The log entries can then be, using the format above, be encoded using
+any format and sent as a part of a blockchain transaction. A common
+format used when transmitting data objects is, for instance, the
+human-readable format JSON.
 
 
 \subsection{Confidentiality}
 Although the blockchain is private, hence cannot be read by hosts
 outside the network, if a server is compromised, an adversary could
 read the log entries of all nodes on the network. This is, of course,
-very bad. Therefore, vi could encrypt apply public-key encryption to
-all log entries, before hashing and generating the merkle
-root. Consequently, all noted can ensure the validity of all data and
-blocks, but only the node with private key could read the actual log
-entries. This key could then be given to the central server so it can
-do its job by monitoring the logs.
+very bad. Therefore, vi could apply public-key encryption to all log
+entries, before hashing and generating the Merkle root. Consequently,
+all notes can ensure the validity of all data and blocks, but only the
+node with private key can read the actual log entries. This key could
+then be given to the central server so it can do its job by monitoring
+the logs.
 
-\begin{figure}[ht]
+In the illustration below, in figure~\ref{fig:merkle-root-crypt}, we
+see an example where the log entries are encrypted before the Merkle
+root is computed. The log entries below the ``Not Distributed'' line
+are never sent over the network.
+
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.6]{figures/merkle-root-crypt.png}
   \caption{\label{fig:merkle-root-crypt} Merkle root with public key enctryption}
 \end{figure}
 
+
+TODO not light weight
 
 
 \subsection{Tie together threats and blockchain section}
@@ -70,3 +81,9 @@ network.
 
 \subsection{Which threats are handled?}
 IMPORTANT, part of project def.
+
+\subsection{What threats is not handled}
+IMPORTANT, part of project def.
+
+
+TODO private network central hacked

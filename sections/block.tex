@@ -104,7 +104,7 @@ one, which is the \textit{Merkle
   \caption{\label{fig:merkle-root} Merkle root of log entries}
 \end{figure}
 
-\subsection{Forward secure}
+\subsubsection{Forward secure}
 By design all blockchains are forward secure, which means an adversary
 can not change something in the ledger, without it being noticed by
 other nodes. This is because of the chain design, where all blocks are
@@ -128,7 +128,7 @@ is an altered root.
 Hash(Hash(H_n) + M_n) \quad\neq\quad Hash(Hash(H_n) + \widetilde{M_n})
 \end{equation}
 
-\subsection{Overview of primitives used}
+\subsubsection{Primitives}
 The actual algorithms used for hashing and signatures is up to each
 implementation. Bitcoin, for instance, uses SHA-256 and RIPEMD-160 for
 hashing, and Elliptical Curve DSA (ECDSA) for signatures, which is a
@@ -145,3 +145,4 @@ signatures (FIPS PUB 186-3).
 
 
 \subsection{Authentication, integrity, reliability, availability, etc}
+TODO ??
