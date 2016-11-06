@@ -6,13 +6,15 @@
 
 \subsubsection{A Case for Centralized Logging }
 
-Runs downs the key benefits of using a centralized logging setup, for troubleshooting, resourcetracking aswell as Security. 
-For the latter it, makes an excellent case, for why secure logging is needed. It is mentioned that the FBI rates logging as the 6th highest priority on their list of top 20 vulnerabilities. "Once you are attacked, without logs, you have little chance of discovering what the attackers did."
+Runs downs the key benefits of using a centralized logging setup, for troubleshooting, resourcetracking aswell as Security. \\
+For the latter it, makes an excellent case, for why secure logging is needed. It is mentioned that the FBI rates logging as the 6th highest priority on their list of top 20 vulnerabilities. "Once you are attacked, without logs, you have little chance of discovering what the attackers did."\\
 This articles considers only on the features of having a centralized log server "One line in a log file on a single server may not be suspicious, but the same entry on 50 servers across an organization within a minute of each other, may be a sign of a major problem."\footnote{\url{http://ebuzzsaw.com/whitePapers/Case_for_Centralize_Logging.htm}}
 
 \subsubsection{A New Approach to Secure Logging}
+The article goes through using forward-secure stream integrity by using forward-secure MAC's and index log chains, or forward-secure MAC's and one way hashes. Finally there is also an extension for public key settings. Unfortunately none of these protect against truncation attacks. Furthermore the first two also suffers from delayed detection attack. They also need a trusted a trusted server to aid users in verifying log data, which makes them suffer from delayed detection attack. lastly they suffer from being inefficient in storage and communication.\\
+To fix all these short comings this article introduces a new cryptographic technique  forward-secure sequential aggregate (FssAgg). In FssAgg, signatures from the same signer are combined into a single aggregate signature. Failed verification of an aggregate signature implies that at least one component signature is invalid. This makes FssAg a good match for secure logging schemes, among other for it being able to resist truncation attacks. To make sure that it is only trusted sources that makes log entries, individual signatures are erased once they are folded into the aggregate.
+  \hl{Beskytter vi imod delayed detection attack (hvor man kan nå at manipulere data inden de er sendt til den centrale logserver)?}
 \footnote{\url{http://sprout.ics.uci.edu/pubs/a2-ma.pdf}}
-
 \subsubsection{BAF: An Efficient Publicly Verifiable Secure Audit Logging Scheme for Distributed Systems}
 \footnote{\raggedright \url{http://web.engr.oregonstate.edu/~yavuza/Courses/Fall2014_AdvNetSec/ResearchPapers/RegularPapers/acsac09b.pdf}}
 
