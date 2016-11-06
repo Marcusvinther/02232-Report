@@ -32,7 +32,7 @@ viewing, but rather for a university, corporation, or any arbitrary
 group of computers.
 
 
-\subsection{Bitcoin}
+\subsection{Real-life application: Bitcoin}
 Now, keep in mind that blockchains is just a database with
 authenticated transactions, distributed over a P2P network. In
 principle, it can be used by share and store your mothers baking
@@ -69,12 +69,12 @@ in this chapter, we will have a look at how an active adversary could
 exploit this system.
 
 
-\subsection{Cryptography}
+\subsection{The cryptography behind}
 In this section I will briefly go over a more detailed structure a
 blockchain and each block, including which cryptographic primitives
 which are commonly used.
-
-\subsubsection{Structure of block}
+nn
+\subsubsection{Structure of a block}
 Each block in a blockchain consists of two parts; a \textit{header},
 containing metadata, and a \textit{body}, containing the actual data.
 The only required information, or fields, in the header is a
@@ -105,6 +105,7 @@ one, which is the \textit{Merkle
 \end{figure}
 
 \subsubsection{Forward secure}
+\label{sec:block-forward-secure}
 By design all blockchains are forward secure, which means an adversary
 can not change something in the ledger, without it being noticed by
 other nodes. This is because of the chain design, where all blocks are
@@ -129,6 +130,7 @@ Hash(Hash(H_n) + M_n) \quad\neq\quad Hash(Hash(H_n) + \widetilde{M_n})
 \end{equation}
 
 \subsubsection{Primitives}
+\label{sec:block-crypto-prims}
 The actual algorithms used for hashing and signatures is up to each
 implementation. Bitcoin, for instance, uses SHA-256 and RIPEMD-160 for
 hashing, and Elliptical Curve DSA (ECDSA) for signatures, which is a
@@ -144,5 +146,23 @@ uses SHA-2 for hashing (FIPS PUB 180-4) and DSA/ECDSA for digital
 signatures (FIPS PUB 186-3).
 
 
-\subsection{Authentication, integrity, reliability, availability, etc}
-TODO ??
+\subsection{Known vulnerabilities}
+\label{sec:block-vuln}
+A vulnerability with \textit{public} blockchains comes from the effect
+of the trust model; no one is actually trusted. The majority of the
+network decides which transactions are legitimate and which are not,
+therefore if an adversary had control of over half the network, he or
+she could control \textit{every} transaction being written to the
+blockchain.
+
+In the case of Bitcoin, we saw how this threat is remedied by
+incentive, how every node on the network has a reason to play nice,
+and how taking control of a majority number of nodes on the network is
+practically infeasible as, at the time of writing, the number of nodes
+required for majority is over 2500 (5515 total active
+nodes)~\footnote{\url{https://bitnodes.21.co/}}.
+
+Hypothetically, a public bitcoin network with a small amount of nodes
+and no incentive for the nodes to play nice, the network is inherently
+\textit{insecure}, and blockchain is probably the wrong choice of
+technology.

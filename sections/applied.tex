@@ -5,15 +5,17 @@
 
 In the same manner as Bitcoin distributes and organizes its financial
 information through a blockchain, we can achieve the same, only with
-log messages. The data in the Body of a block is of no significance to
-functionality of the blockchain, only the hash there of.
+log entries. As we have stated multiple times, the data in the Body of
+a block is of no significance to functionality of the blockchain, only
+the hash there of. In this section we will look at how this blockchain
+technology can solve the challenges presented by the threat analysis.
 
 
-
-\subsection{Log entry}
-The specification of the structure of a log entry is not important as
-all the servers agree. For the purpose of comprehensiveness we include
-a sample format which contains some meta-data and a log message.
+\subsection{Storing log data with blockchains}
+The specification of the structure of a log entry is not important, as
+long as all the servers use the same model. For the purpose of
+comprehensiveness we include a sample format which contains some
+meta-data and a log message.
 \begin{table}[H]
   \centering
   \begin{tabular}{c|c|l}
@@ -28,15 +30,43 @@ a sample format which contains some meta-data and a log message.
   \caption{\label{tab:log-entry} Structure of an log entry}
 \end{table}
 We include the version of the log entry format, so if we update it, we
-can preserve backwards compatibility.
+can preserve backwards compatibility. This will give required
+robustness when shipping updates to the logging software, as the nodes
+will likely not be updated at the exact same time, but keep writing
+log entries to the blockchain in the process. In effect, not updated
+servers will still comprehend the format of updated server, and vice
+verca.
 
-The log entries can then be, using the format above, be encoded using
-any format and sent as a part of a blockchain transaction. A common
-format used when transmitting data objects is, for instance, the
-human-readable format JSON.
+The log entries can then, using the format above, be encoded using any
+binary or human-readable format and sent off as a part of a blockchain
+transaction. A common format used when transmitting data objects is,
+for instance, the human-readable format JSON, which will suffice.
 
 
-\subsection{Confidentiality}
+\subsection{Application of blockchains}
+Having shown how blockchain technology can be used to distribute log
+entries by a group of servers, we will look back to our threat
+analysis and discuss whether it provides solutions therefor.
+
+\subsubsection{Integrity}
+The threat analysis' biggest concern was data integrity, i.e. if an
+adversary gains access to a server on the network, he or she should
+not be able to alter the system logs, even with root privileges,
+without the central logging server noticing it.
+
+As explained in section~\ref{sec:block-forward-secure}, we saw how the
+cryptographic design of blockchains makes altering a block impossible
+without breaking the chain, and there by making it obvious for all
+other members of the network. This quality of blockchains effectively
+solves the challenge of integrity.
+
+There is, though, one exception to this, as explained in
+section~\ref{sec:block-vuln}, and that is where an adversary has
+control of over half the networks nodes. As the purpose of the logging
+system was to detect intrusions in the first place, this scenario is
+mute.
+
+\subsubsection{Confidentiality}
 Although the blockchain is private, hence cannot be read by hosts
 outside the network, if a server is compromised, an adversary could
 read the log entries of all nodes on the network. This is, of course,
@@ -58,32 +88,42 @@ are never sent over the network.
   \caption{\label{fig:merkle-root-crypt} Merkle root with public key enctryption}
 \end{figure}
 
+Again, this scenario also requires the logging system to have failed
+to detect the intrusion of an adversary.
 
-TODO not light weight
+We must note that one of the goals of this systems was to be light
+weight, and therefore introducing public-key encryption goes against
+this quality as being considered a more costly operation. One could
+contemplate a more complex encryption model unique symmetric keys are
+distributed to each member node, reducing the computational cost of
+encryption each log entry. We consider this to be outside the scope of
+the report and will go further into the subject.
 
-
-\subsection{Tie together threats and blockchain section}
-
-\subsection{Illustrate and explain applied scenario}
-
-\subsubsection{Large storage consumption?}
+\subsubsection{Storage consumption}
 % https://bitcoin.stackexchange.com/questions/10479/what-is-the-merkle-root
-No, because only block header and Merkle root needs to be downloaded,
-and Merkle root is enough to confirm that block was accepted by
-network.
+One concern might be the storage consumption following by how every
+node on the network will have to distribute the blockchain containing
+\textit{every} node's log data. This, though, is not a concern as it
+is only the header of each block that is saved locally on each
+node. The size of each node's header, as you might imagine, is very
+small as it only consists of a hand full of fields (256-bit hashes,
+see section~\ref{sec:block-crypto-prims}), as illustrated in
+figure~\ref{fig:blockchain-header}. Remember, the Merkle root is all
+that is needed once a block has been accepted by the network.
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.6]{figures/blockchain-header.png}
   \caption{\label{fig:blockchain-header} Header of a single block}
 \end{figure}
 
 
-\subsection{Which threats are handled?}
-IMPORTANT, part of project def.
+\subsubsection{Robustness}
+Given the assumption that the logging system can detect the compromise
+of a node on the network and effectively revoke its permissions to
+read or write to the blockchain, we can not find faults with the
+system.
 
-\subsection{What threats is not handled}
-IMPORTANT, part of project def.
-
-
-TODO private network central hacked
+An edge case is where the central logging server, the node responsible
+to detect errors, as stated above, is itself compromised. This is
+again not a threat that our system is intended to solve.
