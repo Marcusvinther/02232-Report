@@ -10,7 +10,7 @@ get. An attacker who gains access to a system naturally wishes to remove traces
 of its presence in order to hide attack details or to frame innocent users. In fact,
 the first target of an experienced attacker is often the logging system [Bel-
 lare and Yee 1997; Bellare and Yee 2003]. To make the audit log secure, we
-must prevent the attacker from modifying log data. Secure versions of audit
+must prevent the attacker from modifying log-data. Secure versions of audit
 logs should be designed to defend against such tampering. Providing integrity
 checks, the primary security requirement for any secure logging system, is in-
 formally stated in the Orange Book [U.S. Department of Defense 1985] as:
@@ -74,7 +74,7 @@ Since the servers in the system themselves are of value, they are also considere
 DTU uses a range of different software, both licensed operating systems and expensive scientific software, while also developing software themselves. Much of this software could be installed and distributed through servers at DTU.
 
 \paragraph{Data}
-The servers in the system will contain a lot of data. This data could for example be the grades for the students assignments as well as their grading for the courses. As the case we are focusing on, the servers will also be containing log data from when events happen on the different servers.
+The servers in the system will contain a lot of data. This data could for example be the grades for the students assignments as well as their grading for the courses. As the case we are focusing on, the servers will also be containing log-data from when events happen on the different servers.
 
 From the identified assets the hardware assets and the software assets could be replaced by new stuff, which would cost money. However the intellectual properties, documentation and data are however would be much harder to replace, since they are unique and not an off the shelf asset.
 
@@ -107,10 +107,10 @@ Some of the more valuable assets of our system would be the intellectual propert
 
 The attackers of our system could be students who would like to change their grade and thus attacking the integrity of the data. These attackers would go in the category of script kiddies. Another attacker would be governments who would not like research to be published, because it could destroy a political result and thus they would try to tamper with some research or attack the availability of the research. Other attackers would be companies who would like to gain inside knowledge of business secrets or pending patents and they will thus be a threat to the confidentiality or availability.
 
-Common for these attackers is that whatever they do a counter measure from DTU's side would be to detect when any of the assets has been attacked. One way of detecting these attack is by using logging the events of the server to a central server. This makes the log data a common target for all the attackers and the log data would be vulnerable. The attackers would like to attack the integrity of the log by tampering which the content of the log, as deleting the log in its entirety would easily be noticed.
+Common for these attackers is that whatever they do a counter measure from DTU's side would be to detect when any of the assets has been attacked. One way of detecting these attack is by using logging the events of the server to a central server. This makes the log-data a common target for all the attackers and the log-data would be vulnerable. The attackers would like to attack the integrity of the log by tampering which the content of the log, as deleting the log in its entirety would easily be noticed.
 
 \subsection{Scope of our project}
-In this project we are focusing mainly on the log data asset. Since this asset is a common target for all the attacker models it is of paramount importance that it is well protected. Since it is a premise for the system that the servers are insecure, we are considering the integrity of the log data on the central server. It is important that the log data is forward secure such that it is not possible to tamper with already logged events. We will thus be focusing on designing a cryptographic countermeasure against attack on the integrity of the main server log and not on the integrity of the logging events from the servers that might have been hijacked by an attacker.
+In this project we are focusing mainly on the log-data asset. Since this asset is a common target for all the attacker models it is of paramount importance that it is well protected. Since it is a premise for the system that the servers are insecure, we are considering the integrity of the log-data on the central server. It is important that the log-data is forward-secure such that it is not possible to tamper with already logged events. We will thus be focusing on designing a cryptographic countermeasure against attack on the integrity of the main server log and not on the integrity of the logging events from the servers that might have been hijacked by an attacker.
 
 
 

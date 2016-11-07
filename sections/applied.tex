@@ -11,7 +11,7 @@ the hash there of. In this section we will look at how this blockchain
 technology can solve the challenges presented by the threat analysis.
 
 
-\subsection{Storing log data with blockchains}
+\subsection{Storing log-data with blockchains}
 The specification of the structure of a log entry is not important, as
 long as all the servers use the same model. For the purpose of
 comprehensiveness we include a sample format which contains some
@@ -64,7 +64,7 @@ There is, though, one exception to this, as explained in
 section~\ref{sec:block-vuln}, and that is where an adversary has
 control of over half the networks nodes. As the purpose of the logging
 system was to detect intrusions in the first place, this scenario is
-mute.
+not relevant.
 
 \subsubsection{Confidentiality}
 Although the blockchain is private, hence cannot be read by hosts
@@ -103,7 +103,7 @@ the report and will go further into the subject.
 % https://bitcoin.stackexchange.com/questions/10479/what-is-the-merkle-root
 One concern might be the storage consumption following by how every
 node on the network will have to distribute the blockchain containing
-\textit{every} node's log data. This, though, is not a concern as it
+\textit{every} node's log-data. This, though, is not a concern as it
 is only the header of each block that is saved locally on each
 node. The size of each node's header, as you might imagine, is very
 small as it only consists of a hand full of fields (256-bit hashes,
