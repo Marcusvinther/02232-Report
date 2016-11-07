@@ -77,12 +77,12 @@ node with private key can read the actual log entries. This key could
 then be given to the central server so it can do its job by monitoring
 the logs.
 
-In the illustration below, in figure~\ref{fig:merkle-root-crypt}, we
-see an example where the log entries are encrypted before the Merkle
-root is computed. The log entries below the ``Not Distributed'' line
-are never sent over the network.
+In figure~\ref{fig:merkle-root-crypt} we see an example where the log
+entries are encrypted before the Merkle root is computed. The log
+entries below the ``Not Distributed'' line are never sent over the
+network.
 
-\begin{figure}[H]
+\begin{figure}
   \centering
   \includegraphics[scale=0.6]{figures/merkle-root-crypt.png}
   \caption{\label{fig:merkle-root-crypt} Merkle root with public key enctryption}
