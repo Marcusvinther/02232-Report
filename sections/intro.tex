@@ -2,9 +2,50 @@
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End:
+The scenario in this report is central to the topic of data integrity. All data can be manipulated by an adversary with data-access, but through usage of certain security techniques, this can be discovered, and possibly reversed. Knowing whether to trust data or not is extremely important, which is why this scenario is important in a security context.
+Our scenario can be visualized as follows. A central logging server receives system logging entries from other servers:
+\\
+
+\begin{center}
+    \includegraphics[scale=0.6]{figures/Intro_Scenario_Diagram.png}
+\end{center}
+
+A collection of servers on DTU will emit logging entries to a central logging-server for security auditing. It is assumed that the data logged by the servers have intrinsic value, which is interesting for potential attackers, hence the need for secure logging. An attacker could gain valuable knowledge from inspecting the logs, which may lead to larger compromises.
+\\The periodic security auditing of the central server logs should indicate breaches, so the integrity of the central logs are critical.
+We assume that a security breach is total, which means that all data stored on a server, and key material is compromised.
+\\When a server is compromised, it is imperative that log-data cannot be modified by the attacker, since this will obscure the compromise.
+The sequence for each log entry should also be protected, since this will compromise the integrity of the log-data, if an attacker is able to modify the sequence of events.
+\\If the central logging server is breached, it should not be possible for the attacker to manipulate logging data, except for erasing the entire log.
+
+\subsection{Overall goal: detect intrusion, robustness}
+
+The intention behind our solution is to provide a system that protects our valuable asset, the log-data. It should not be possible for an adversary to manipulate existing log-data, in transit or even delete parts of it. The sequence of events should also be maintained. This means that data must be encrypted in transit from log-node to the central server, and should contain some sort of integrity check, such as a hashing mechanism and a signature. This protects us from passive attacks, such as man-in-the-middle attacks, where an adversary might access or even modify data transmitted between nodes.
+An adversary should not easily have read-access to raw, unencrypted log-data, which might contain important data related to the system. When a log-entry is transmitted, it should contain some form of authentication, so the central server is able to identify the communicating node, so no rogue nodes are able to participate in the logging system, and forge false log-entries.
+\\Unencrypted data should not be stored locally on any of the logging nodes, since this might compromise the confidentiality of the data. The data should only be stored in a syslog-like database on the central server, as per the project definition. This means that an attacker could  only gain complete data access by breaching the central server. We discussed if this could be prevented by encrypting the data with the central-servers public key, but since all key-material is compromised on a breach, this would be a moot point. We might consider encrypting the data with a key not accessible to the central server.
+\\The main goal of the project is to design a system which is robust to compromise of a small subset of servers. Our system should be able to handle breaches of several servers, as long as the number of compromised servers are not in the majority numbers of total servers.
+Attackers should not gain access to all data by compromising single nodes, or even a subset of all the nodes.
+
+\subsection{Introducing blockchain: tamper-proof, survive compromise, confidentiality}
+Building upon the technology of blockchains, we have designed a solution to fulfill all these goals, and produce a "digital ledger" containing all of the system logs. The system is partly modelled after the bitcoin-technology, which is a distributed database containing transactions within the bitcoin-ecosystem - a digital crypto-currency. For our purpose, we also want to distribute information across mulitple nodes, to maintain sequence and integrity of our log-data. The strength of blockchain technology lies exactly within its ability to automatically maintain tampering protection and a natural sequence ordering, and thus providing us with a solution for our main goal, data integrity. The specifics for this mechanism will be explained further in this report, to illustrate how this protection is obtained.
+\\The system is distributed by design, which means that all nodes shares the transaction history, and no single node has more inherent control of the topology then others, and therefore cannot be manipulated without leading to immediate detection. This will help us maintain the sequence ordering and data integrity, since the only way to tamper with the data is to delete the entire database, although this is not possible without controlling a majority of the server-nodes.
+\\Confidentiality can be obtained by using public-key cryptography to encrypt all log entries before distributing these across the blockchain network. The private key corresponding to the used public key should only be accessible to the central-servers. This way, we ensure that only the central log server is able to access the log-data unencrypted, and we use a simple key-sharing scheme to avoid unnecessary complications of the solution.
+\\In public blockchains, such as the bitcoin blockchain, any node can join the topology and participate in the network. This feature is undesirable in our context, which is why we will use a private/permissioned blockchain, which simply means that only authorized servers can join the network. This solves a number of problems related to rogue servers, and message forging/spoofing. The trust-model behind this is typically a PKI, which ideally is operated on the central log server. That way, only servers which is present in the PKI on the central log server can participate in the blockchain.
+
+Many of the challenges of this scenario is automatically solved by using blockchain with simple modifications to our specific requirements.
+The solution briefly summarized:
+\begin{itemize}
+    \item Using blockchain to distribute log-data across all servers.
+    \item Data-redundancy, since all transactions logs are replicated on all nodes
+    \item Confidentiality by using encrypted blockchains
+    \item Data integrity is built into blockchain, so tampering is hard
+    \item Intruders must control the majority of the servers to tamper with data or sequence. This provides us with forward security, given a majority control.
+    \item Simple key-sharing scheme by using public-key cryptography.
+\end{itemize}
+
+How these features are achieved will be explained more in-depth in section 4 and 5 with a direct comparison to Bitcoin, and examples of usage.
 
 \subsection{Litterature review}
-
+In this section we will briefly look at how other other solutions handles the problem of logging in distributed systems. 
 \subsubsection{A Case for Centralized Logging }
 \vspace{-3mm}
 {\footnotesize \it Fred DeFrance, Ebuzzsaw.com}~\cite{defrance}
@@ -105,46 +146,3 @@ the network at will, by looking at the block chain they can trust the
 transaction that has occurred while they left the network. Any needed
 rules to the network will need to be approved by the majority of the
 CPU power in the network.~\cite{nakamoto}
-
-
-\subsection{Problem scenario}
-
-This scenario is central to the topic of data integrity. All data can be manipulated by an adversary with data-access, but through usage of certain security techniques, this can be discovered, and possibly reversed. Knowing whether to trust data or not is extremely important, which is why this scenario is important in a security context.
-Our scenario can be visualized as follows. A central logging server receives system logging entries from other servers:
-\\
-
-\begin{center}
-    \includegraphics[scale=0.6]{figures/Intro_Scenario_Diagram.png}
-\end{center}
-
-A collection of servers on DTU will emit logging entries to a central logging-server for security auditing. It is assumed that the data logged by the servers have intrinsic value, which is interesting for potential attackers, hence the need for secure logging. An attacker could gain valuable knowledge from inspecting the logs, which may lead to larger compromises.
-\\The periodic security auditing of the central server logs should indicate breaches, so the integrity of the central logs are critical.
-We assume that a security breach is total, which means that all data stored on a server, and key material is compromised.
-\\When a server is compromised, it is imperative that log-data cannot be modified by the attacker, since this will obscure the compromise.
-The sequence for each log entry should also be protected, since this will compromise the integrity of the log-data, if an attacker is able to modify the sequence of events.
-\\If the central logging server is breached, it should not be possible for the attacker to manipulate logging data, except for erasing the entire log.
-
-\subsection{Overall goal: detect intrusion, robustness}
-
-The intention behind our solution is to provide a system that protects our valuable asset, the log-data. It should not be possible for an adversary to manipulate existing log-data, in transit or even delete parts of it. The sequence of events should also be maintained. This means that data must be encrypted in transit from log-node to the central server, and should contain some sort of integrity check, such as a hashing mechanism and a signature. This protects us from passive attacks, such as man-in-the-middle attacks, where an adversary might access or even modify data transmitted between nodes.
-An adversary should not easily have read-access to raw, unencrypted log-data, which might contain important data related to the system. When a log-entry is transmitted, it should contain some form of authentication, so the central server is able to identify the communicating node, so no rogue nodes are able to participate in the logging system, and forge false log-entries.
-\\Unencrypted data should not be stored locally on any of the logging nodes, since this might compromise the confidentiality of the data. The data should only be stored in a syslog-like database on the central server, as per the project definition. This means that an attacker could  only gain complete data access by breaching the central server. We discussed if this could be prevented by encrypting the data with the central-servers public key, but since all key-material is compromised on a breach, this would be a moot point. We might consider encrypting the data with a key not accessible to the central server.
-\\The main goal of the project is to design a system which is robust to compromise of a small subset of servers. Our system should be able to handle breaches of several servers, as long as the number of compromised servers are not in the majority numbers of total servers.
-Attackers should not gain access to all data by compromising single nodes, or even a subset of all the nodes.
-
-\subsection{Introducing blockchain: tamper-proof, survive compromise, confidentiality}
-Building upon the technology of blockchains, we have designed a solution to fulfill all these goals, and produce a "digital ledger" containing all of the system logs. The system is partly modelled after the bitcoin-technology, which is a distributed database containing transactions within the bitcoin-ecosystem - a digital crypto-currency. For our purpose, we also want to distribute information across mulitple nodes, to maintain sequence and integrity of our log-data. The strength of blockchain technology lies exactly within its ability to automatically maintain tampering protection and a natural sequence ordering, and thus providing us with a solution for our main goal, data integrity. The specifics for this mechanism will be explained further in this report, to illustrate how this protection is obtained.
-\\The system is distributed by design, which means that all nodes shares the transaction history, and no single node has more inherent control of the topology then others, and therefore cannot be manipulated without leading to immediate detection. This will help us maintain the sequence ordering and data integrity, since the only way to tamper with the data is to delete the entire database, although this is not possible without controlling a majority of the server-nodes.
-\\Confidentiality can be obtained by using public-key cryptography to encrypt all log entries before distributing these across the blockchain network. The private key corresponding to the used public key should only be accessible to the central-servers. This way, we ensure that only the central log server is able to access the log-data unencrypted, and we use a simple key-sharing scheme to avoid unnecessary complications of the solution.
-\\In public blockchains, such as the bitcoin blockchain, any node can join the topology and participate in the network. This feature is undesirable in our context, which is why we will use a private/permissioned blockchain, which simply means that only authorized servers can join the network. This solves a number of problems related to rogue servers, and message forging/spoofing. The trust-model behind this is typically a PKI, which ideally is operated on the central log server. That way, only servers which is present in the PKI on the central log server can participate in the blockchain.
-
-Many of the challenges of this scenario is automatically solved by using blockchain with simple modifications to our specific requirements.
-The solution briefly summarized:\\
-- Using blockchain to distribute log-data across all servers.\\
-- Data-redundancy, since all transactions logs are replicated on all nodes\\
-- Confidentiality by using encrypted blockchains\\
-- Data integrity is built into blockchain, so tampering is hard\\
-- Intruders must control the majority of the servers to tamper with data or sequence. This provides us with forward security, given a majority control.\\
-- Simple key-sharing scheme by using public-key cryptography.
-
-How these features are achieved will be explained more in-depth in section 4 and 5 with a direct comparison to Bitcoin, and examples of usage.
