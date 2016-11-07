@@ -3,12 +3,14 @@
 %%% TeX-master: "../main"
 %%% End:
 The scenario in this report is central to the topic of data integrity. All data can be manipulated by an adversary with data-access, but through usage of certain security techniques, this can be discovered, and possibly reversed. Knowing whether to trust data or not is extremely important, which is why this scenario is important in a security context.
-Our scenario can be visualized as follows. A central logging server receives system logging entries from other servers:
-\\
+Our scenario can be visualized as below, in figure~\ref{fig:model}. A central logging server receives system logging entries from other servers:
 
-\begin{center}
-    \includegraphics[scale=0.6]{figures/Intro_Scenario_Diagram.png}
-\end{center}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.45]{figures/centralized-model.png}
+  \caption{\label{fig:model} Central logging server monitoring the
+    network members' logs}
+\end{figure}
 
 A collection of servers on DTU will emit logging entries to a central logging-server for security auditing. It is assumed that the data logged by the servers have intrinsic value, which is interesting for potential attackers, hence the need for secure logging. An attacker could gain valuable knowledge from inspecting the logs, which may lead to larger compromises.
 \\The periodic security auditing of the central server logs should indicate breaches, so the integrity of the central logs are critical.
@@ -45,7 +47,7 @@ The solution briefly summarized:
 How these features are achieved will be explained more in-depth in section 4 and 5 with a direct comparison to Bitcoin, and examples of usage.
 
 \subsection{Litterature review}
-In this section we will briefly look at how other other solutions handles the problem of logging in distributed systems. 
+In this section we will briefly look at how other other solutions handles the problem of logging in distributed systems.
 \subsubsection{A Case for Centralized Logging }
 \vspace{-3mm}
 {\footnotesize \it Fred DeFrance, Ebuzzsaw.com}~\cite{defrance}
