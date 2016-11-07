@@ -19,8 +19,7 @@ This articles considers one of the features on having a centralized log server "
 To fix all these short comings this article introduces a new cryptographic technique  forward-secure sequential aggregate (FssAgg). In FssAgg, signatures from the same signer are combined into a single aggregate signature. Failed verification of an aggregate signature implies that at least one component signature is invalid. This makes FssAg a good match for secure logging schemes, among other for it being able to resist truncation attacks. To make sure that it is only trusted sources that makes log entries, individual signatures are erased once they are folded into the aggregate.This also means that even if you know the current signing key, you will not be able to make a valid FssAgg forgery.\\
 
 The private solution given in the article do not rely on online trusted party, it is able to make fast hashing and symmetric key operations. It is also very storage-efficient, compared to previous solutions. The biggest draw back with the private solution is that it is still vulnerable to delayed detection attacks.\\
-To solve this the article introduces a public-verifiable scheme, this solution allows anyone to validate a log file. This solution allows for scalability. But since there is no such thing a free lunch, the public scheme, will introduce a much larger resource demand, than the symmetric solution.  \todo{Beskytter vi imod delayed detection attack (hvor man kan nå at manipulere data inden de er sendt til den centrale logserver)?}
-\footnote{\url{http://sprout.ics.uci.edu/pubs/a2-ma.pdf}}
+To solve this the article introduces a public-verifiable scheme, this solution allows anyone to validate a log file. This solution allows for scalability. But since there is no such thing a free lunch, the public scheme, will introduce a much larger resource demand, than the symmetric solution. \footnote{\url{http://sprout.ics.uci.edu/pubs/a2-ma.pdf}}
 
 
 \subsubsection{BAF: An Efficient Publicly Verifiable Secure Audit Logging Scheme for Distributed Systems}
@@ -35,7 +34,7 @@ BAF provides efficient log generation, by using three cryptographic hashes, this
 \\\\
 \normalsize
 Introduces a system for electronic transactions without relying on trust. The currency/coins is made with digital signatures, which provides strong control of ownership, but no way to eliminate double spending fraud. The solution to prevent this is by using block chains to record a public transaction history. As long as it is honest nodes in the network control, that controls the majority of the CPU power the block chain is considered robust. Nodes is able to leave and join the network at will, by looking at the block chain they can trust the transaction that has occurred while they left the network. Any needed rules to the network will need to be approved by the majority of the CPU power in the network.  \footnote{\url{https://bitcoin.org/bitcoin.pdf}}
-\newpage
+
 
 \subsection{Problem scenario}
 
