@@ -73,14 +73,13 @@ exploit this system.
 In this section we will briefly go over a more detailed structure a
 blockchain and each block, including which cryptographic primitives
 which are commonly used.
-nn
+
 \subsubsection{Structure of a block}
 Each block in a blockchain consists of two parts; a \textit{header},
 containing metadata, and a \textit{body}, containing the actual data.
 The only required information, or fields, in the header is a
-timestamp (required for validation~\footnote{TODO}), a hash of the data in
-its body (connecting body with header) and most importantly, a hash of
-the previous block's header.
+timestamp, a hash of the data in its body (connecting body with
+header) and most importantly, a hash of the previous block's header.
 
 Below, in figure~\ref{fig:blockchain}, is an illustration of three
 consecutive blocks in an arbitrary blockchain (the timestamp field is
