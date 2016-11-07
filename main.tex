@@ -50,7 +50,7 @@
 \setcounter{tocdepth}{3}    % entries down to \subsubsections in the TOC
 \addto\captionsamerican{\renewcommand{\contentsname}{Table of Contents}}
 % heading and document layout stuff
-%\titleformat{\chapter}{\normalfont\LARGE\bfseries\color{black}}{\thechapter.}{1em}{}
+% \titleformat{\chapter}{\normalfont\LARGE\bfseries\color{black}}{\thechapter.}{1em}{}
 
 \input{macros}
 
@@ -103,6 +103,10 @@
 \input{sections/conc}
 \clearpage
 
+\section{References}
+\begingroup
+\renewcommand{\section}[2]{}%
 \input{sections/biblio}
+\endgroup
 
 \end{document}
