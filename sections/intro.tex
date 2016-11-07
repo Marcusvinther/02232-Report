@@ -7,9 +7,9 @@
 
 \subsubsection{A Case for Centralized Logging }
 
-Runs downs the key benefits of using a centralized logging setup, for troubleshooting, resourcetracking aswell as Security. \\
+The article runs downs the key benefits of using a centralized logging setup, for troubleshooting, resourcetracking aswell as Security. \\
 For the latter it, makes an excellent case, for why secure logging is needed. It is mentioned that the FBI rates logging as the 6th highest priority on their list of top 20 vulnerabilities. "Once you are attacked, without logs, you have little chance of discovering what the attackers did."\\
-This articles considers only on the features of having a centralized log server "One line in a log file on a single server may not be suspicious, but the same entry on 50 servers across an organization within a minute of each other, may be a sign of a major problem."\footnote{\url{http://ebuzzsaw.com/whitePapers/Case_for_Centralize_Logging.htm}}
+This articles considers one of the features on having a centralized log server "One line in a log file on a single server may not be suspicious, but the same entry on 50 servers across an organization within a minute of each other, may be a sign of a major problem."\footnote{\url{http://ebuzzsaw.com/whitePapers/Case_for_Centralize_Logging.htm}}
 
 \subsubsection{A New Approach to Secure Logging}
 The article goes through using forward-secure stream integrity by using forward-secure MAC's and index log chains, or forward-secure MAC's and one way hashes. Finally there is also an extension for public key settings. Unfortunately none of these protect against truncation attacks. Furthermore the first two also suffers from delayed detection attack. They also need a trusted a trusted server to aid users in verifying log data, which makes them suffer from delayed detection attack. lastly they suffer from being inefficient in storage and communication.\\
@@ -20,13 +20,14 @@ The private solution given in the article do not rely on online trusted party, i
   \todo{Beskytter vi imod delayed detection attack (hvor man kan nå at manipulere data inden de er sendt til den centrale logserver)?}
 \footnote{\url{http://sprout.ics.uci.edu/pubs/a2-ma.pdf}}
 \subsubsection{BAF: An Efficient Publicly Verifiable Secure Audit Logging Scheme for Distributed Systems}
+The article introduces a novel forward secure and aggregate logging scheme called Blind-Aggregate-Forward (BAF). This solutions is suitable for large distributed systems, since it can produce publicly verifiable ward secure and aggregate signatures with near-zero computational, storage, and communication costs for the loggers, without requiring any online Trusted Third Party.  BAF is essentially the best successor to FssAgg. \\
+The main advantages with BAF is that it can achieve public verifiability. This means that it do not need a trusted third party, such that it is not vulnerable to attacks like delayed detection attack. BAF will also save the resources needed to achieve full symmetric key distribution. From this BAF can avoid the need for storing and transmitting an authentication tag for each log entry.  \\
+BAF provides efficient log generation, by using three cryptographic hashes, this makes it as efficient as symmetric schemes, and much more efficient than public schemes. Log verification is only a single elliptic curve cryptography scalar multiplication, which again makes it more efficient than public key schemes. Finally BAF provides public verifiable signatures without using public cryptographic schemes. 
+
 \footnote{\raggedright \url{http://web.engr.oregonstate.edu/~yavuza/Courses/Fall2014_AdvNetSec/ResearchPapers/RegularPapers/acsac09b.pdf}}
 
-\subsubsection{A Security Analysis of System Event Logging with Syslog}
-\footnote{\raggedright \url{https://www.sans.org/reading-room/whitepapers/logging/security-analysis-system-event-logging-syslog-1101}}
-
 \subsubsection{Bitcoin: A Peer-to-Peer Electronic Cash System}
-\footnote{\url{https://bitcoin.org/bitcoin.pdf}}
+Introduces a system for electronic transactions without relying on trust. The coins is made with digital signatures, which provides strong control of ownership, but no way to eliminate double spending fraud. The solution to prevent this is by using block chains to record a public transaction history. As long as hones nodes in the network control the majority of the CPU power the block chain is considered robust. Nodes is able to leave and join the network at will, by looking at the block chain they can trust the transaction that has occoured while they left the network. Any needed rules to the network will need to be approved by the majority of the CPU power in the network.  \footnote{\url{https://bitcoin.org/bitcoin.pdf}}
 \newpage
 
 \subsection{Problem scenario}
